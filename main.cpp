@@ -1,7 +1,11 @@
 #include <iostream>
+#include <limits>
 using namespace std;
 
 #include "Grafo.hpp"
+#include "Pilha.hpp"
+#include "ListaLigada.hpp"
+#include "Fila.hpp"
 
 
 int main(){
@@ -53,7 +57,30 @@ int main(){
 
     }
     BuscaEmLargura menorCaminho;
-    menorCaminho.BFS(galaxia, sistemaInicial, sistemaDestino);
+    menorCaminho.BFS(galaxia, sistemaInicial); //monta a arvore de distancias minimas
+
+    Pilha<int> sistemasVisitados;
+    cout << '\n';
+    int sistemaAtual = sistemaDestino;
+    sistemasVisitados.adicionar(sistemaDestino);
+    while(sistemaAtual != sistemaInicial){ //colocamos na fila cada sistema que foi visitado durando a BFS
+        cout << "predecessor do sistema " << sistemaAtual << ": " << menorCaminho.getPredecessores()[sistemaAtual] << '\n';
+        sistemaAtual = menorCaminho.getPredecessores()[sistemaAtual];
+        sistemasVisitados.adicionar(sistemaAtual);
+    }
+    sistemasVisitados.mostrarPilha();
+    cout << "\n\n\n\n";
+    float somatorio = 0;
+    while(!sistemasVisitados.estaVazia()){ //para cada sistema que está na pilha vamos pegar o somatório
+        BuscaEmProfundidade busca = BuscaEmProfundidade();
+        Vertice u = sistemasVisitados.pop();
+        busca.DFS(*sistPlanetarios[u]);
+        somatorio += busca.getSomatorio();
+    }
+    cout << float(somatorio) << ".0";
+
+
+
 
 
 }
