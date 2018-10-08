@@ -265,6 +265,9 @@ int main(){
     }
 
     cout << float(somatorio) << ".0";
+    for(int i = 1; i <= ordemGrafo; i++)
+        delete sistPlanetarios[i];
+    delete [] sistPlanetarios;
 }
 
 
